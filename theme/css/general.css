@@ -227,11 +227,14 @@ code, pre {
     background-color: #222632 !important;
     color: white !important;
     border-radius: 20px;
-    padding-bottom: 30px !important;
 }
 
 pre {
     padding: 15px 20px 25px !important;
+}
+
+pre code {
+    padding-bottom: 30px !important;
 }
 
 ::-webkit-scrollbar-thumb,
