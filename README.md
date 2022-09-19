@@ -2,10 +2,10 @@
 
 <p align="center">
     <a href="https://github.com/surrealdb/tutorials#gh-dark-mode-only" target="_blank">
-        <img width="300" src="/img/white/logo.svg" alt="SurrealDB Logo">
+        <img width="300" src="img/white/logo.svg" alt="SurrealDB Logo">
     </a>
     <a href="https://github.com/surrealdb/tutorials#gh-light-mode-only" target="_blank">
-        <img width="300" src="/img/black/logo.svg" alt="SurrealDB Logo">
+        <img width="300" src="img/black/logo.svg" alt="SurrealDB Logo">
     </a>
 </p>
 
