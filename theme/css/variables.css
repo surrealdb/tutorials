@@ -1,0 +1,61 @@
+
+/* Globals */
+
+:root {
+    --sidebar-width: 350px;
+    --page-padding: 50px;
+    --content-max-width: 850px;
+    --menu-bar-height: 50px;
+
+    --bg: #171a21;
+    --fg: #ffffff;
+
+    --sidebar-bg: #363c4e;
+    --sidebar-fg: #aeb8ca;
+    --sidebar-non-existant: #5c6773;
+    --sidebar-active: #ff009e;
+    --sidebar-spacer: #ff009e;
+
+    --scrollbar: var(--sidebar-active);
+
+    --icons: #737480;
+    --icons-hover: #b7b9cc;
+
+    --links: #ff009e;
+
+    --inline-code-color: #ff009e;
+
+    --theme-popup-bg: #14191f;
+    --theme-popup-border: #5c6773;
+    --theme-hover: #191f26;
+
+    --quote-bg: hsl(226, 15%, 17%);
+    --quote-border: hsl(226, 15%, 22%);
+
+    --table-border-color: hsl(210, 25%, 13%);
+    --table-header-bg: hsl(210, 25%, 28%);
+    --table-alternate-bg: hsl(210, 25%, 11%);
+
+    --searchbar-border-color: #848484;
+    --searchbar-bg: #424242;
+    --searchbar-fg: #fff;
+    --searchbar-shadow-color: #d4c89f;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: #888;
+    --searchresults-li-bg: #252932;
+    --search-mark-bg: #ff009e;
+
+    --text-color:#ffffff;
+	--back-color:#171a21;
+	--dark-color:#363c4e;
+	--faint-color:#aeb8ca;
+	--hover-color:#ff009e;
+	--popup-color:#222632;
+	--coder-color:#222632;
+	--boxes-color:#222632;
+	--input-color:#222632;
+	--split-color:#141416;
+	--darker-color:#1c1f28;
+	--border-color:#333949;
+	--sidebar-color:#222632;
+}

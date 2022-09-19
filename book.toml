@@ -1,0 +1,9 @@
+[book]
+authors = ["Micha de Vries"]
+language = "en"
+multilingual = false
+src = "."
+title = "SurrealDB tutorials"
+git-repository-url = "https://github.com/surrealdb/tutorials"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/surrealdb/tutorials/edit/main/{path}"
