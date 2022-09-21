@@ -21,6 +21,11 @@ jobs:
           # mdbook-version: 'latest'
 
       - run: mdbook build
+      
+      - uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "book/CNAME"
+          FILE_DATA: "test.kearfy.xyz"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
