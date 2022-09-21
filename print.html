@@ -188,7 +188,7 @@
 <p>To be able to achieve this, we built <a href="https://github.com/theopensource-company/surrealdb-cloudflare">our own database driver</a>, which is also available via <a href="https://www.npmjs.com/package/@theopensource-company/surrealdb-cloudflare">NPM</a>.</p>
 <p>Below follow a few examples on how to use the database drivers with cloudflare workers. In these examples we use the worker typescript template.</p>
 <h3 id="connection-variables-from-environment"><a class="header" href="#connection-variables-from-environment">Connection variables from environment</a></h3>
-<pre><code class="language-typescript">import Surreal from 'surrealdb-cloudflare';
+<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
 
 // Type safety, typescript example :D
 type Env = {
@@ -225,7 +225,7 @@ export default {
 };
 </code></pre>
 <h3 id="connection-variables-defined-in-code"><a class="header" href="#connection-variables-defined-in-code">Connection variables defined in code</a></h3>
-<pre><code class="language-typescript">import Surreal from 'surrealdb-cloudflare';
+<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
 
 // We can update the connection variables later on, as we don't have them available here just yet...
 const db = new Surreal({
