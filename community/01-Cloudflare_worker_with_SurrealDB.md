@@ -21,7 +21,7 @@ Below follow a few examples on how to use the database drivers with cloudflare w
 
 ### Connection variables from environment
 ```typescript
-import Surreal from 'surrealdb-cloudflare';
+import Surreal from '@theopensource-company/surrealdb-cloudflare';
 
 // Type safety, typescript example :D
 type Env = {
@@ -61,7 +61,7 @@ export default {
 
 ### Connection variables defined in code
 ```typescript
-import Surreal from 'surrealdb-cloudflare';
+import Surreal from '@theopensource-company/surrealdb-cloudflare';
 
 // We can update the connection variables later on, as we don't have them available here just yet...
 const db = new Surreal({
