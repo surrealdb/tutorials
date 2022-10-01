@@ -32,7 +32,7 @@
 	- [Relate](#relate)
 
 
-##### Surreal Now
+# Surreal Now
 
 <h2><img height="20" src="/img/gettingstarted.svg">&nbsp;&nbsp;Surreal now</h2>
 
@@ -40,12 +40,12 @@ Surreal now section will allow you directly to access, create, select and releat
 
 First use this command to create and access a database on your IDE or terminal!
 
-###### Credentials
+## Credentials
 
 	surreal sql --conn http://localhost:8000 --user admin --pass password --ns company --db company --pretty
 
 
-###### Create
+## Create
 
 Input:
 
@@ -88,7 +88,7 @@ Output:
 	}
 	]
 
-###### Select
+## Select
 
 Input:
 
@@ -111,7 +111,7 @@ Output:
 	}
 	]
 
-###### Relate
+## Relate
 
 Input:
 
