@@ -29,7 +29,7 @@
 
 # Surreal Now
 
-<h2><img height="20" src="/img/gettingstarted.svg">&nbsp;&nbsp;Surreal now</h2>
+<h2>&nbsp;&nbsp;Surreal now</h2>
 
 Surreal now section will allow you directly to access, create, select and releate databases successfully now, here! Go!
 
