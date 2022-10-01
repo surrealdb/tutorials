@@ -1,6 +1,12 @@
 <br>
 
 <p align="center">
+    <img width="300" src="/img/icon.png" alt="SurrealDB Icon">
+</p>
+
+<br>
+
+<p align="center">
     <a href="https://surrealdb.com#gh-dark-mode-only" target="_blank">
         <img width="300" src="/img/white/logo.svg" alt="SurrealDB Logo">
     </a>
@@ -18,6 +24,7 @@
     </a>
     is the ultimate cloud <br> database for tomorrow's applications
 </h3>
+
 
 - [Surreal Now](#surreal-now)
 	- [Credentials](#Credentials)
