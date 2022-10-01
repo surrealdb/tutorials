@@ -16,7 +16,8 @@
     <a href="https://surrealdb.com#gh-light-mode-only" target="_blank">
         <img src="/img/black/text.svg" height="15" alt="SurrealDB">
     </a>
-    is the ultimate cloud <br> database for tomorrow's applications
+    and here, Surreal Now will allow you to plug and play now, into the ultimate cloud
+database for tomorrow's applications 
 </h3>
 
 
