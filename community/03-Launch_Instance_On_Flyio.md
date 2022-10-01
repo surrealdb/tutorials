@@ -1,4 +1,16 @@
-# Running a SurrealDB Instance on Fly.io
+<br>
+    <h1 align="center">Running a SurrealDB Instance on Fly.io</h1>
+<br>
+
+---
+
+<p>
+    Tutorial by <a href="https://github.com/intabulas" target="_blank">Mark Lussier</a>
+</p>
+
+---
+
+<br>
 
 These are the steps for getting a [surrealdb](https://surrealdb.com/) instance running on [fly.io](https://fly.io/) and connecting to it. This is **heavily** based off of steps posted in the surrealdb discord by rvdende. [View Origional Post](https://discord.com/channels/902568124350599239/1022387563627028511/1022928762947514449).
 
