@@ -16,16 +16,13 @@
 As described in the [overview](../) of this tutorial, [SurrealDB](https://surrealdb.com/) provides different modes when it comes to data persistence. This tutorial will focus on the `tikv` mode (or `path` parameter) which uses [TiKV](https://tikv.org/) to persist data and enables distributed mode.  
 
 ## Examples
-To run [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using [TiKV](https://tikv.org/), start it using `tikv://<address_of_tikv_server>` as the `path` argument, as well as the required parameters for setting the private-/public key pair and the signing CA public key:
+To run [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using [TiKV](https://tikv.org/), start it using `tikv://<address_of_tikv_pd>` as the `path` argument:
 ```bash
 surreal start \
   --log trace \
   --user root \
   --pass root \
-  --kvs-ca <path_to_CA_file> \
-  --kvs-crt <path_to_client_cert> \
-  --kvs_key <path_to_private_key_file> \
-  tikv://localhost:20160
+  tikv://localhost:2379
 ```
 
 ### ToC
