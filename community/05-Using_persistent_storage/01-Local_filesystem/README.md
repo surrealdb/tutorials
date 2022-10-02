@@ -122,8 +122,8 @@ docker compose -d -f docker-compose.yml up
 [[back to top]](#examples)
 
 ### 5. Kubernetes using persistent volume claim
-This section is about running [SurrealDB](https://surrealdb.com/) in persistent mode on Kubernetes - [minikube](https://minikube.sigs.k8s.io/docs/) in this case.  
-Instructions on how to install and run `minikube` can be found in the [official documentation](https://minikube.sigs.k8s.io/docs/start/).  
+This section is about running [SurrealDB](https://surrealdb.com/) in persistent mode on Kubernetes - [minikube](https://minikube.sigs.k8s.io/docs/) in this case. 
+Instructions on how to install and run `minikube` can be found in the [minikube docs](https://minikube.sigs.k8s.io/docs/start/).  
 
 In order to run on Kubernetes we have to create the following objects:  
 - [namespace](#namespaceyaml)
@@ -175,7 +175,27 @@ Please find the required YAML snippets below.
 [[back]](#5-kubernetes-using-persistent-volume-claim)
 
 #### Deploy on Kubernetes
+Please find a detailed description on how to deploy on minikube below.  
+For those who want to the fast way there is a [gist](https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml) available.
 
+Using the gist:
+```bash
+# Start minikube
+minikube start
+
+# Get the gist
+wget https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml
+
+# !!! Check the gists content !!!
+
+# Apply the downloaded gist
+kubectl apply -f ./surrealdb-minikube-example.yaml -n surrealdb
+
+# or for those who trust public internet content
+kubectl apply -n surrealdb -f https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml
+```
+
+The long way:
 ```bash
 # Start minikube
 minikube start
