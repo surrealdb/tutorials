@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: surrealdb-tikv
+  name: surrealdb-tikv
+  namespace: surrealdb-tikv
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: surrealdb-tikv
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: surrealdb-tikv
+    spec:
+      containers:
+      - image: surrealdb/surrealdb:latest
+        name: surrealdb-tikv
+        envFrom:
+        - configMapRef:
+            name: surrealdb-tikv-config
+        - secretRef:
+            name: surrealdb-tikv-secret
+        args: 
+          - start
+          - --log
+          - $(SURREALDB_LOG_LEVEL)
+          - --user
+          - $(SURREALDB_ROOT_USER)
+          - --pass
+          - $(SURREALDB_ROOT_PASS)
+          - $(SURREALDB_TIKV_URL)
+        ports:
+        - containerPort: 8000
+        resources: {}
