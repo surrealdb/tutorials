@@ -14,11 +14,11 @@
 <br>
 
 [SurrealDB](https://surrealdb.com/) currently offers three modes for data storage:  
-- memory: (default) non persistent mode for development and testing
-- file: Use the local file system to store data
-- tikv: Use [TiKV](https://tikv.org/) as storage system - currently rquired for running in distrbuted mode  
+- ***memory***: (default) non persistent mode for development and testing
+- ***file***: Use the local file system to store data
+- ***tikv***: Use [TiKV](https://tikv.org/) as storage system - currently rquired for running in distrbuted mode  
 
-These modes are set by the `path` argument on the binary as written in the [official docs](https://surrealdb.com/docs/cli/start) and shown in the examples below.  
+These modes are set by the `path` argument on the commandline when running the binary as written in the [official docs](https://surrealdb.com/docs/cli/start) and shown in the [examples](#storage-mode-examples) below.  
 
 This tutorial contains two sections - one focusing on local storage, one on [TiKV](https://tikv.org/) for running in distributed mode:
 - [Local filesystem](01-Local_filesystem/README.md)
@@ -27,19 +27,19 @@ This tutorial contains two sections - one focusing on local storage, one on [TiK
 ## Storage mode examples
 
 ### Memory
-To start [SurrealDB](https://surrealdb.com/) in *<u>non-persistent (memory)</u>* mode, start it using `memory` as the `path` argument:
+To run [SurrealDB](https://surrealdb.com/) in *<u>**non**-persistent (memory)</u>* mode, start it using `memory` as the `path` argument:
 ```bash
 surreal start --log trace --user root --pass root memory
 ```
 
-### Local filesystem
-To start [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using the local filesystem, start it using `file://<path_to_data_directory>` as the `path` argument:
+### [Local filesystem](01-Local_filesystem/)
+To run [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using the local filesystem, start it using `file://<path_to_data_directory>` as the `path` argument:
 ```bash
-surreal start --log trace --user root --pass root file://${pwd}/data
+surreal start --log trace --user root --pass root file://$(pwd)/data
 ```
 
-### Using TiKV
-To start [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using [TiKV](https://tikv.org/), start it using `tikv://<address_of_tikv_server>` as the `path` argument, as well as the required parameters for setting the private-/public key pair and the signing CA public key:
+### [Distributed using TiKV](02-Distributed/)
+To run [SurrealDB](https://surrealdb.com/) in *<u>persistent</u>* mode using [TiKV](https://tikv.org/), start it using `tikv://<address_of_tikv_server>` as the `path` argument, as well as the required parameters for setting the private-/public key pair and the signing CA public key:
 ```bash
 surreal start \
   --log trace \

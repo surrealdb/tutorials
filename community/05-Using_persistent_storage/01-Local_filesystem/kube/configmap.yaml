@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  SURREALDB_LOG_LEVEL: trace
+kind: ConfigMap
+metadata:
+  name: surrealdb-config
+  namespace: surrealdb

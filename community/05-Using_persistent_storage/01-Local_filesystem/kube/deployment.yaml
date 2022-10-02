@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: surrealdb
+  name: surrealdb
+  namespace: surrealdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: surrealdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: surrealdb
+    spec:
+      containers:
+      - image: surrealdb/surrealdb:latest
+        name: surrealdb
+        envFrom:
+        - configMapRef:
+            name: surrealdb-config
+        - secretRef:
+            name: surrealdb-secret
+        args: 
+          - start
+          - --log
+          - $(SURREALDB_LOG_LEVEL)
+          - --user
+          - $(SURREALDB_ROOT_USER)
+          - --pass
+          - $(SURREALDB_ROOT_PASS)
+          - file:///data
+        ports:
+        - containerPort: 8000
+        resources: {}
+        volumeMounts:
+          - mountPath: "/data"
+            name: surrealdb-data-volume
+      volumes:
+        - name: surrealdb-data-volume
+          persistentVolumeClaim:
+            claimName: surrealdb-data
