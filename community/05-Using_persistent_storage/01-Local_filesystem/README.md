@@ -176,7 +176,7 @@ Please find the required YAML snippets below.
 
 #### Deploy on Kubernetes
 Please find a detailed description on how to deploy on minikube below.  
-For those who want to the fast way there is a [gist](https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml) available.
+For those who want to the fast way there is a [gist](https://gist.github.com/sewe75/298c0b8da785af372d3ab525cf61ebf8) available.
 
 Using the gist:
 ```bash
@@ -184,7 +184,8 @@ Using the gist:
 minikube start
 
 # Get the gist
-wget https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml
+wget -O surrealdb-minikube-example.yaml \
+  https://gist.github.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw
 
 # !!! Check the gists content !!!
 
@@ -192,7 +193,8 @@ wget https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/
 kubectl apply -f ./surrealdb-minikube-example.yaml -n surrealdb
 
 # or for those who trust public internet content
-kubectl apply -n surrealdb -f https://gist.githubusercontent.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw/65ad7973ab59aaba2545d0765c0245d82f01e13c/surrealdb-minikube-example.yaml
+kubectl apply -n surrealdb \
+  -f https://gist.github.com/sewe75/298c0b8da785af372d3ab525cf61ebf8/raw
 ```
 
 The long way:
