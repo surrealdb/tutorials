@@ -12,7 +12,7 @@
 
 <br>
 
-These are the steps for getting a [surrealdb](https://surrealdb.com/) instance running on [fly.io](https://fly.io/) and connecting to it. This is **heavily** based off of steps posted in the surrealdb discord by rvdende. [View Origional Post](https://discord.com/channels/902568124350599239/1022387563627028511/1022928762947514449).
+These are the steps for getting a [surrealdb](https://surrealdb.com/) instance running on [fly.io](https://fly.io/) and connecting to it. This is **heavily** based off of steps posted in the surrealdb discord by rvdende. [View Original Post](https://discord.com/channels/902568124350599239/1022387563627028511/1022928762947514449).
 
 These steps work just fine for the hobby (pay as you go) plan.
 
@@ -30,7 +30,7 @@ brew install flyctl
 
 source: [fly.io docs](https://fly.io/docs/hands-on/sign-up/)
 
-```bash]
+```bash
 flyctl auth signup
 ```
 
@@ -44,12 +44,12 @@ flyctl auth login
 
 ## Create a Dockerfile to run SurrealDB
 
-Create a directory locally, cd into it and create a new `Dockerfile`. Note we aren't providing a root user username/password to the start command, we will bre providing those as environment variables.
+Create a directory locally, cd into it and create a new `Dockerfile`. Note we aren't providing a root user username/password to the start command, we will be providing those as environment variables.
 
 ```docker
 FROM surrealdb/surrealdb:latest
 EXPOSE 8080
-CMD ["start", "--bind","0.0.0.0:8080", "file://data/srdb.db"]
+CMD ["start", "--bind", "0.0.0.0:8080", "file://data/srdb.db"]
 ```
 
 ### Launch your Instance.. sort of :)
@@ -58,7 +58,7 @@ CMD ["start", "--bind","0.0.0.0:8080", "file://data/srdb.db"]
 fly launch
 ```
 
-You will be prompted for various questions. Give your app a rememberable name since it will be used in the URL. Pick a region close to you and most importantly, answer NO when prompted if you wish to deploy immediately.
+You will be prompted with various questions. Give your app a memorable name since it will be used in the URL. Pick a region close to you and most importantly, answer NO when prompted if you wish to deploy immediately.
 
 ### Create a volume
 
@@ -68,7 +68,7 @@ We need to create a volume for surreal to write the database to. Lets create a s
 fly volumes create data --region <region> --size 1
 ```
 
-Now lets edit and the `fly.toml` file that was created by `fly launch. Put this at the end, no indentations or spaces.
+Now lets edit the `fly.toml` file that was created by `fly launch`. Put this at the end, no indentations or spaces.
 
 ```toml
 [mounts]
@@ -78,7 +78,7 @@ destination="/data"
 
 ### Secrets
 
-Now lets add our username and password as secrets. You can see the environment variables suurealdb supports by running `surreal start -h`
+Now lets add our username and password as secrets. You can see the environment variables surrealdb supports by running `surreal start -h`
 
 ```bash
 fly secrets set USER=root
@@ -95,7 +95,7 @@ fly deploy
 
 Now that your surrealdb instance is up and running, you need to be able to connect to it. Even though we exposed port 8080 in the Dockerfile, fly will map that appropriatly to port 80/443.
 
-If your connecting via a websocket client library, surrealdb-go in my case, you would connect like the following. Note the use of wss://
+If you're connecting via a websocket client library, surrealdb-go in my case, you would connect with the following. Note the use of `wss://`
 
 ```go
 db, err := surrealdb.New("wss://<appname>.fly.dev/rpc")
@@ -107,8 +107,8 @@ if err != nil {
 
 ### Surreal sql Command
 
-If your connecting via the surreal cli either, use the connection string of `--conn https://<appname<.fly.dev`. Please don't forget to pass --user/--pass with the values you used when creating secrets.
+If you're connecting via the surreal cli, use a connection string with `--conn https://<appname>.fly.dev`. Please don't forget to pass `--user`/`--pass` with the values you used when creating secrets.
 
-### Third Party tools like rvdende's [surrealreact](https://surrealreact.fly.dev/)
+### Third Party tools such as rvdende's [surrealreact](https://surrealreact.fly.dev/)
 
 When creating a connection, specify the host as `https://<appname>.fly.dev/rpc`
