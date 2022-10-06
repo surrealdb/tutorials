@@ -49,8 +49,8 @@ There are two main guides:
 
 <br>
 
- - [Cloudflare worker with SurrealDB](02-Community/01-Cloudflare-worker-with-SurrealDB.md) - [Micha de Vries](https://github.com/kearfy)
- - [Host in docker compose](02-Community/02-Host-in-docker-compose.md) - [Micha de Vries](https://github.com/kearfy)
- - [How to use signin and signup](02-Community/03-How-to-use-signin-and-signup.md) - [Koakh](https://github.com/koakh)
- - [04-How to Run a SurrealDB Instance on Fly.io.md](02-Community/04-How-to-Run-a-SurrealDB-Instance-on-Flyio.md) - [Mark Lussier](https://github.com/intabulas)
+ - [Cloudflare worker with SurrealDB](02-Community/01-Cloudflare-worker-with-SurrealDB.md) - [Micha de Vries](https://github.com/kearfy) | [Twitter](https://twitter.com/Kearfy)
+ - [Host in docker compose](02-Community/02-Host-in-docker-compose.md) - [Micha de Vries](https://github.com/kearfy)| [Twitter](https://twitter.com/Kearfy)
+ - [How to use signin and signup](02-Community/03-How-to-use-signin-and-signup.md) - [Koakh](https://github.com/koakh)| [Twitter](https://twitter.com/marioammonteiro)
+ - [04-How to Run a SurrealDB Instance on Fly.io.md](02-Community/04-How-to-Run-a-SurrealDB-Instance-on-Flyio.md) - [Mark Lussier](https://github.com/intabulas)| [Twitter](https://twitter.com/intabulas/with_replies)
 
