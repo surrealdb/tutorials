@@ -27,5 +27,5 @@ Make sure to also update the summary file in the root of the project, and the su
 
 There are two main guides:
 
-Official guides: Guides made by the core or community team, only focused on SurrealDB.
-Community guides: Guides made by the community with addons and external sources, like dockers or fly.io enhancements.
+-[Official guides: Guides made by the core or community team, only focused on SurrealDB.](/official)
+- [Community guides: Guides made by the community with addons and external sources, like dockers or fly.io enhancements.](/community)
