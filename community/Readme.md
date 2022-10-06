@@ -1,7 +1,3 @@
-<button>
-<link>[Cloudflare worker with SurrealDB](01-Cloudflare-worker-with-SurrealDB.md)</br>
-</button>
-
 <br>
 
 <h1 align="center">Community guides</h1>
