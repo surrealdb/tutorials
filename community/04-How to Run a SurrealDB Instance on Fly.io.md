@@ -1,5 +1,5 @@
 <br>
-    <h1 align="center">Running a SurrealDB Instance on Fly.io</h1>
+    <h1 align="center">Run a SurrealDB Instance on Fly.io</h1>
 <br>
 
 ---

@@ -9,7 +9,7 @@
 3. [How to use signin and signup](03_How_to_use_signin_and_signup.md) - [Koakh](https://github.com/koakh)
 4. [Launch a SurrealDB instance on Fly.io](04-Launch_Instance_On_Flyio.md) - [Mark Lussier](https://github.com/intabulas)
 5. [How to turn on SurrealDB]()
-6. [How to turn on SurrealDB]()
+6. [How to SurrealDB]()
 7. [How to turn on SurrealDB]()
 8. [How to turn on SurrealDB]()
 9. [How to turn on SurrealDB]()
