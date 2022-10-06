@@ -27,5 +27,30 @@ Make sure to also update the summary file in the root of the project, and the su
 
 There are two main guides:
 
-- [Official guides: Guides made by the core or community team, only focused on SurrealDB.](/official)
-- [Community guides: Guides made by the community with addons and external sources, like dockers or fly.io enhancements.](/community)
+- [Official guides: Guides made by the core or community team, only focused on SurrealDB.](/01-Official)
+- [Community guides: Guides made by the community with addons and external sources, like dockers or fly.io enhancements.](/02-Community)
+
+---
+
+<br>
+
+<h2 align="center">Official guides</h2>
+
+<br>
+
+ - [How to Turn on SurrealDB](01-How-to-turn-on-SurrealDB.md) - Written by [Miguel Gargallo](https://github.com/miguelgargallo) | [Twitter](https://twitter.com/miguelgargallo)
+ - [How to CONNECT on SurrealDB](02-How-to-connect-into-SurrealDB) - Written by [Miguel Gargallo](https://github.com/miguelgargallo) | [Twitter](https://twitter.com/miguelgargallo)
+ - [How to CREATE SurrealDB](03-How-to-create-on-SurrealDB.md) - Written by [Miguel Gargallo](https://github.com/miguelgargallo) | [Twitter](https://twitter.com/miguelgargallo)
+ - [How to SELECT SurrealDB](04-How-to-select-on-SurrealDB.md) - Written by [Miguel Gargallo](https://github.com/miguelgargallo) | [Twitter](https://twitter.com/miguelgargallo)
+ - [How to RELATE SurrealDB](05-How-to-relate-on-SurrealDB.md) - Written by [Miguel Gargallo](https://github.com/miguelgargallo) | [Twitter](https://twitter.com/miguelgargallo)
+
+
+<h2 align="center">Community guides</h2>
+
+<br>
+
+1. [Cloudflare worker with SurrealDB](01-Cloudflare-worker-with-SurrealDB.md) - [Micha de Vries](https://github.com/kearfy)
+2. [Host in docker compose](02-Host-in-docker-compose.md) - [Micha de Vries](https://github.com/kearfy)
+3. [How to use signin and signup](03-How-to-use-signin-and-signup.md) - [Koakh](https://github.com/koakh)
+4. [04-How to Run a SurrealDB Instance on Fly.io.md](04-How-to-Run-a-SurrealDB-Instance-on-Flyio.md) - [Mark Lussier](https://github.com/intabulas)
+
