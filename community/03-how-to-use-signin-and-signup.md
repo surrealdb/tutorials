@@ -5,7 +5,7 @@
 ---
 
 <p>
-  Tutorial by <a href="https://github.com/koakh" target="_blank">Koakh</a> from <a href="https://github.com/tobiemh" target="_blank">Tobie</a> code snippet
+  Tutorial by <a href="https://github.com/koakh" target="_blank">Koakh</a> from <a href="https://github.com/tobiemh" target="_blank">Tobie</a> code snippet, and from old [gist](https://gist.github.com/koakh/fbbc37cde630bedcf57acfd4d6a6956b)  
 </p>
 
 ---
