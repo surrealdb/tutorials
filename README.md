@@ -24,3 +24,5 @@ To view the community-submitted tutorials and code walkthroughs, view the [`comm
 If you would like to make a contribution, please follow the instructions in the Contribution Guidelines and then open a Pull-Request. One of the community managers will then evaluate your tutorial, and provide you with feedback.
 
 Make sure to also update the summary file in the root of the project, and the summary file for either the community of official guides when you add or remove a guide, or when you rename it.
+
+> don't forget to install [mdbook](https://rust-lang.github.io/mdBook/index.html) tooling and check if everything is working has expected with [mdbook serve](https://rust-lang.github.io/mdBook/cli/serve.html) command, ex broken links before PR
