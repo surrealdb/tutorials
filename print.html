@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="community/host-in-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Launch a SurrealDB instance on Fly.io</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="community/host-with-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host with docker compose</a></li><li class="chapter-item expanded "><a href="community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Running a SurrealDB Instance on Fly.io</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -162,28 +162,39 @@
 <p>To view the community-submitted tutorials and code walkthroughs, view the <a href="https://github.com/surrealdb/tutorials/tree/main/community"><code>community</code></a> folder in this repository.</p>
 <h4 id="contributing"><a class="header" href="#contributing">Contributing</a></h4>
 <p>If you would like to make a contribution, please follow the instructions in the Contribution Guidelines and then open a Pull-Request. One of the community managers will then evaluate your tutorial, and provide you with feedback.</p>
-<p>Make sure to also update the summary file in the root of the project, and the summary file for either the community of official guides when you add or remove a guide, or when you rename it.</p>
+<p>Due to the way we set up the repo you only need to create <strong>ONE</strong> file, which is your guide itself (outside of images/assets). Please include the configuration bit in the top of the template file and don't change it's structure, else the github action will fail.</p>
 <div style="break-before: page; page-break-before: always;"></div><br>
-<h1 align="center">Official guides</h1>
+    <h1 align="center">Official guides</h1>
 <br>
-<ol>
-<li>No guides exist one, be the first to add something!</li>
-</ol>
+<p>Only SurrealDB staff are allowed to create guides here. If you have a guide which we think will fit in the official category, we will propose this to the surrealdb team <em>for</em> you.</p>
+<br>
+<hr />
+<h2 id="guides"><a class="header" href="#guides">Guides</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><br>
-<h1 align="center">Community guides</h1>
+    <h1 align="center">Community guides</h1>
 <br>
+<p>Please follow the contribution guidelines when creating a new guide:</p>
+<ul>
+<li>A Pull Request will be rejected if it's subject is wider than about only one guide.</li>
+<li>Please follow the template file and keep the top configuration in the same order. Otherwise the test will fail and it will <strong>not</strong> build.</li>
+<li>If you think something can be done better about the repository, please open an issue first to discuss the matter! It will create a mess if everybody opens a PR for small improvements to be rejected.</li>
+<li><strong>Note</strong>: Because of the way we built the repo, your PR only needs to contain <strong>one</strong> file, which is the guide itself (outside of potential images). All other changes <strong>will be rejected</strong>.</li>
+</ul>
+<br>
+<hr />
+<h2 id="guides-1"><a class="header" href="#guides-1">Guides</a></h2>
 <ul>
 <li><a href="community/cloudflare-worker-with-surrealdb.html">Cloudflare worker with SurrealDB</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
-<li><a href="community/host-in-docker-compose.html">Host in docker compose</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
+<li><a href="community/host-with-docker-compose.html">Host with docker compose</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
 <li><a href="community/how-to-use-signin-and-signup.html">How to use signin and signup</a> - <a href="https://github.com/koakh">Koakh</a></li>
-<li><a href="community/launch-instance-on-flyio.html">Launch a SurrealDB instance on Fly.io</a> - <a href="https://github.com/intabulas">Mark Lussier</a></li>
+<li><a href="community/launch-instance-on-flyio.html">Running a SurrealDB Instance on Fly.io</a> - <a href="https://github.com/intabulas">Mark Lussier</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><br>
-<h1 align="center">Cloudflare worker with SurrealDB</h1>
+    <h1 align="center">Cloudflare worker with SurrealDB</h1>
 <br>
 <hr />
 <p>
-    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>
+    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>.
 </p>
 <hr />
 <br>
@@ -269,11 +280,11 @@ res.forEach(record =&gt; {
 });
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><br>
-    <h1 align="center">Host in docker compose</h1>
+    <h1 align="center">Host with docker compose</h1>
 <br>
 <hr />
 <p>
-    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>
+    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>.
 </p>
 <hr />
 <br>
@@ -311,13 +322,14 @@ services:
       - ./data:/data
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><br>
-  <h1 align="center">How to use signin and signup</h1>
+    <h1 align="center">How to use signin and signup</h1>
 <br>
 <hr />
 <p>
-  Tutorial by <a href="https://github.com/koakh" target="_blank">Koakh</a> from <a href="https://github.com/tobiemh" target="_blank">Tobie</a> code snippet
+    Tutorial by <a href="https://github.com/koakh" target="_blank">Koakh</a>.
 </p>
 <hr />
+<br>
 <h2 id="start-inmemory-server"><a class="header" href="#start-inmemory-server">Start InMemory Server</a></h2>
 <pre><code class="language-shell">$ surreal start --log trace --user root --pass root
 </code></pre>
@@ -463,7 +475,7 @@ SIGNIN (
 <br>
 <hr />
 <p>
-    Tutorial by <a href="https://github.com/intabulas" target="_blank">Mark Lussier</a>
+    Tutorial by <a href="https://github.com/intabulas" target="_blank">Mark Lussier</a>.
 </p>
 <hr />
 <br>

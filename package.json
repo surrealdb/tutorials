@@ -1,0 +1,10 @@
+{
+  "name": "surrealdb-tutorials",
+  "description": "Awesome guides by community and team members!",
+  "scripts": {
+    "build": "node build.js && mdbook build"
+  },
+  "author": "SurrealDB",
+  "license": "MIT",
+  "type": "module"
+}

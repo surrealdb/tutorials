@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html" class="active"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/host-in-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="../community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Launch a SurrealDB instance on Fly.io</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html" class="active"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/host-with-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host with docker compose</a></li><li class="chapter-item expanded "><a href="../community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="../community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Running a SurrealDB Instance on Fly.io</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -146,13 +146,23 @@
                 <div id="content" class="content">
                     <main>
                         <br>
-<h1 align="center">Community guides</h1>
+    <h1 align="center">Community guides</h1>
 <br>
+<p>Please follow the contribution guidelines when creating a new guide:</p>
+<ul>
+<li>A Pull Request will be rejected if it's subject is wider than about only one guide.</li>
+<li>Please follow the template file and keep the top configuration in the same order. Otherwise the test will fail and it will <strong>not</strong> build.</li>
+<li>If you think something can be done better about the repository, please open an issue first to discuss the matter! It will create a mess if everybody opens a PR for small improvements to be rejected.</li>
+<li><strong>Note</strong>: Because of the way we built the repo, your PR only needs to contain <strong>one</strong> file, which is the guide itself (outside of potential images). All other changes <strong>will be rejected</strong>.</li>
+</ul>
+<br>
+<hr />
+<h2 id="guides"><a class="header" href="#guides">Guides</a></h2>
 <ul>
 <li><a href="cloudflare-worker-with-surrealdb.html">Cloudflare worker with SurrealDB</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
-<li><a href="host-in-docker-compose.html">Host in docker compose</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
+<li><a href="host-with-docker-compose.html">Host with docker compose</a> - <a href="https://github.com/kearfy">Micha de Vries</a></li>
 <li><a href="how-to-use-signin-and-signup.html">How to use signin and signup</a> - <a href="https://github.com/koakh">Koakh</a></li>
-<li><a href="launch-instance-on-flyio.html">Launch a SurrealDB instance on Fly.io</a> - <a href="https://github.com/intabulas">Mark Lussier</a></li>
+<li><a href="launch-instance-on-flyio.html">Running a SurrealDB Instance on Fly.io</a> - <a href="https://github.com/intabulas">Mark Lussier</a></li>
 </ul>
 
                     </main>
