@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Host in docker compose - SurrealDB tutorials</title>
+        <title>Launch a SurrealDB instance on Fly.io - SurrealDB tutorials</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/01-Cloudflare_worker_with_SurrealDB.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/02-Host_in_docker_compose.html" class="active"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/03_How_to_use_signin_and_signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/host-in-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="../community/launch-instance-on-flyio.html" class="active"><strong aria-hidden="true">2.4.</strong> Launch a SurrealDB instance on Fly.io</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -146,59 +146,78 @@
                 <div id="content" class="content">
                     <main>
                         <br>
-    <h1 align="center">Host in docker compose</h1>
+    <h1 align="center">Running a SurrealDB Instance on Fly.io</h1>
 <br>
 <hr />
 <p>
-    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>
+    Tutorial by <a href="https://github.com/intabulas" target="_blank">Mark Lussier</a>
 </p>
 <hr />
 <br>
-<p>As of writing this tutorial, Surreal Cloud is not yet available. For our project (which is currently heavily in development) we need to have an online instance of surrealdb available, so we have resided to a Hetzner VPS with docker-compose to keep it all clean and tidy.</p>
-<p>What follows beyond here is a boiler plate with a very basic docker-compose instance, and the way we have deployed it.</p>
-<br>
-<h2 id="basic-no-ssl"><a class="header" href="#basic-no-ssl">Basic, no SSL</a></h2>
-<pre><code class="language-yaml">version: '3'
-
-services:
-  surrealdb:
-    image: surrealdb/surrealdb:latest
-    container_name: surrealdb
-    restart: always
-    command: start --user INSERT_USERNAME_HERE --pass INSERT_PASSWORD_HERE file:/data/database.db
-    ports:
-      - 8000:8000
-    volumes:
-      - ./data:/data
+<p>These are the steps for getting a <a href="https://surrealdb.com/">surrealdb</a> instance running on <a href="https://fly.io/">fly.io</a> and connecting to it. This is <strong>heavily</strong> based off of steps posted in the surrealdb discord by rvdende. <a href="https://discord.com/channels/902568124350599239/1022387563627028511/1022928762947514449">View Original Post</a>.</p>
+<p>These steps work just fine for the hobby (pay as you go) plan.</p>
+<p><strong>HEADS UP</strong> By default this will create an instance on a single shared cpu with 256m memory. This is pretty darn small to do anything but experiment, but its free. You can scale your instance to something more useable by visiting the <code>https://fly.io/apps/&lt;appname&gt;/scale</code>. Obviously scaling to larger instances will incur higher costs, please refer to <a href="https://fly.io/docs/about/pricing/">fly.io pricing</a></p>
+<h3 id="installing-flyio-client"><a class="header" href="#installing-flyio-client">Installing fly.io client</a></h3>
+<p>source: <a href="https://fly.io/docs/hands-on/install-flyctl/">fly.io docs</a></p>
+<pre><code class="language-bash">brew install flyctl
 </code></pre>
-<br>
-<h2 id="our-deployment"><a class="header" href="#our-deployment">Our deployment</a></h2>
-<p>We don't need any automatic SSL generation as we use an SSL provided by cloudflare for our origin server, but feel free to add another template to this guide which automatically requests an SSL from Let's encrypt!</p>
-<pre><code class="language-yaml">version: '3'
-
-services:
-  surrealdb:
-    image: surrealdb/surrealdb:latest
-    container_name: surrealdb
-    restart: always
-    command: start --user INSERT_USERNAME_HERE --pass INSERT_PASSWORD_HERE --web-crt /data/web.crt --web-key /data/web.key file:/data/database.db
-    ports:
-      - 443:8000
-    volumes:
-      - ./data:/data
+<h3 id="optionally-create-a-free-account-if-needed"><a class="header" href="#optionally-create-a-free-account-if-needed">Optionally create a free account if needed</a></h3>
+<p>source: <a href="https://fly.io/docs/hands-on/sign-up/">fly.io docs</a></p>
+<pre><code class="language-bash">flyctl auth signup
 </code></pre>
+<h3 id="login-to-your-flyio-account"><a class="header" href="#login-to-your-flyio-account">Login to your fly.io account</a></h3>
+<p>source: <a href="https://fly.io/docs/hands-on/sign-in/">fly.io docs</a></p>
+<pre><code class="language-bash">flyctl auth login
+</code></pre>
+<h2 id="create-a-dockerfile-to-run-surrealdb"><a class="header" href="#create-a-dockerfile-to-run-surrealdb">Create a Dockerfile to run SurrealDB</a></h2>
+<p>Create a directory locally, cd into it and create a new <code>Dockerfile</code>. Note we aren't providing a root user username/password to the start command, we will be providing those as environment variables.</p>
+<pre><code class="language-docker">FROM surrealdb/surrealdb:latest
+EXPOSE 8080
+CMD [&quot;start&quot;, &quot;--bind&quot;, &quot;0.0.0.0:8080&quot;, &quot;file://data/srdb.db&quot;]
+</code></pre>
+<h3 id="launch-your-instance-sort-of-"><a class="header" href="#launch-your-instance-sort-of-">Launch your Instance.. sort of :)</a></h3>
+<pre><code class="language-sh">fly launch
+</code></pre>
+<p>You will be prompted with various questions. Give your app a memorable name since it will be used in the URL. Pick a region close to you and most importantly, answer NO when prompted if you wish to deploy immediately.</p>
+<h3 id="create-a-volume"><a class="header" href="#create-a-volume">Create a volume</a></h3>
+<p>We need to create a volume for surreal to write the database to. Lets create a small 1g volume. Right now you can not scale a volume (you need to create a new one), but fly.io is working on supporting this. You can get up a total of 3g of persistent volume storage (total) for free.</p>
+<pre><code class="language-bash">fly volumes create data --region &lt;region&gt; --size 1
+</code></pre>
+<p>Now lets edit the <code>fly.toml</code> file that was created by <code>fly launch</code>. Put this at the end, no indentations or spaces.</p>
+<pre><code class="language-toml">[mounts]
+source=&quot;data&quot;
+destination=&quot;/data&quot;
+</code></pre>
+<h3 id="secrets"><a class="header" href="#secrets">Secrets</a></h3>
+<p>Now lets add our username and password as secrets. You can see the environment variables surrealdb supports by running <code>surreal start -h</code></p>
+<pre><code class="language-bash">fly secrets set USER=root
+fly secrets set PASS=&lt;passwordhere&gt;
+</code></pre>
+<h3 id="lets-deploy"><a class="header" href="#lets-deploy">Let's Deploy</a></h3>
+<pre><code class="language-bash">fly deploy
+</code></pre>
+<h3 id="connecting"><a class="header" href="#connecting">Connecting</a></h3>
+<p>Now that your surrealdb instance is up and running, you need to be able to connect to it. Even though we exposed port 8080 in the Dockerfile, fly will map that appropriatly to port 80/443.</p>
+<p>If you're connecting via a websocket client library, surrealdb-go in my case, you would connect with the following. Note the use of <code>wss://</code></p>
+<pre><code class="language-go">db, err := surrealdb.New(&quot;wss://&lt;appname&gt;.fly.dev/rpc&quot;)
+if err != nil {
+	fmt.Printf(&quot;error creating socket: %s&quot;, err)
+	os.Exit(2)
+}
+</code></pre>
+<h3 id="surreal-sql-command"><a class="header" href="#surreal-sql-command">Surreal sql Command</a></h3>
+<p>If you're connecting via the surreal cli, use a connection string with <code>--conn https://&lt;appname&gt;.fly.dev</code>. Please don't forget to pass <code>--user</code>/<code>--pass</code> with the values you used when creating secrets.</p>
+<h3 id="third-party-tools-such-as-rvdendes-a-hrefhttpssurrealreactflydevsurrealreacta"><a class="header" href="#third-party-tools-such-as-rvdendes-a-hrefhttpssurrealreactflydevsurrealreacta">Third Party tools such as rvdende's <a href="https://surrealreact.fly.dev/">surrealreact</a></a></h3>
+<p>When creating a connection, specify the host as <code>https://&lt;appname&gt;.fly.dev/rpc</code></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="../community/01-Cloudflare_worker_with_SurrealDB.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../community/how-to-use-signin-and-signup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="../community/03_How_to_use_signin_and_signup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -206,13 +225,10 @@ services:
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="../community/01-Cloudflare_worker_with_SurrealDB.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../community/how-to-use-signin-and-signup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="../community/03_How_to_use_signin_and_signup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                             </nav>
 
         </div>

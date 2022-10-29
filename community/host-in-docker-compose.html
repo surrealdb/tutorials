@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Cloudflare worker with SurrealDB - SurrealDB tutorials</title>
+        <title>Host in docker compose - SurrealDB tutorials</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/01-Cloudflare_worker_with_SurrealDB.html" class="active"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/02-Host_in_docker_compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/03_How_to_use_signin_and_signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/cloudflare-worker-with-surrealdb.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/host-in-docker-compose.html" class="active"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="../community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Launch a SurrealDB instance on Fly.io</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -146,7 +146,7 @@
                 <div id="content" class="content">
                     <main>
                         <br>
-<h1 align="center">Cloudflare worker with SurrealDB</h1>
+    <h1 align="center">Host in docker compose</h1>
 <br>
 <hr />
 <p>
@@ -154,97 +154,49 @@
 </p>
 <hr />
 <br>
-<p>I am building an <a href="https://kards.social">open-source social media platform</a> with cloudflare workers. Internally, we we're in debate between projects like <a href="https://blog.cloudflare.com/introducing-d1/">Cloudflare D1</a> and <a href="https://planetscale.com">Planetscale</a> but eventually we stumbled upon <a href="https://surrealdb.com">SurrealDB</a>. It really made a lot of sense for our project, so we went with it!</p>
-<p>To be able to achieve this, we built <a href="https://github.com/theopensource-company/surrealdb-cloudflare">our own database driver</a>, which is also available via <a href="https://www.npmjs.com/package/@theopensource-company/surrealdb-cloudflare">NPM</a>.</p>
-<p>Below follow a few examples on how to use the database drivers with cloudflare workers. In these examples we use the worker typescript template.</p>
-<h3 id="connection-variables-from-environment"><a class="header" href="#connection-variables-from-environment">Connection variables from environment</a></h3>
-<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
+<p>As of writing this tutorial, Surreal Cloud is not yet available. For our project (which is currently heavily in development) we need to have an online instance of surrealdb available, so we have resided to a Hetzner VPS with docker-compose to keep it all clean and tidy.</p>
+<p>What follows beyond here is a boiler plate with a very basic docker-compose instance, and the way we have deployed it.</p>
+<br>
+<h2 id="basic-no-ssl"><a class="header" href="#basic-no-ssl">Basic, no SSL</a></h2>
+<pre><code class="language-yaml">version: '3'
 
-// Type safety, typescript example :D
-type Env = {
-    HOST: string;
-    USER: string;
-    PASS: string;
-    NAMESPACE: string;
-    DATABASE: string;
-}
-
-// We can update the connection variables later on, as we don't have them available here just yet...
-const db = new Surreal();
-
-export default {
-	async fetch(
-		request: Request,
-        env: Env
-	): Promise&lt;Response&gt; {
-        // If database not yet connected, let's update the connection details.
-        if (!db.connected()) db.connect({
-            host: env.HOST ?? '',
-            username: env.USER ?? '',
-            password: env.PASS ?? '',
-            namespace: env.NAMESPACE ?? '',
-            database: env.DATABASE ?? ''
-        });
-
-        // Example query: Retrieves all records from table 'table'.
-        let res = await db.getRecords('table');
-		console.log(res[0].result);
-
-		return new Response(&quot;Hello World!&quot;);
-	},
-};
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: surrealdb
+    restart: always
+    command: start --user INSERT_USERNAME_HERE --pass INSERT_PASSWORD_HERE file:/data/database.db
+    ports:
+      - 8000:8000
+    volumes:
+      - ./data:/data
 </code></pre>
-<h3 id="connection-variables-defined-in-code"><a class="header" href="#connection-variables-defined-in-code">Connection variables defined in code</a></h3>
-<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
+<br>
+<h2 id="our-deployment"><a class="header" href="#our-deployment">Our deployment</a></h2>
+<p>We don't need any automatic SSL generation as we use an SSL provided by cloudflare for our origin server, but feel free to add another template to this guide which automatically requests an SSL from Let's encrypt!</p>
+<pre><code class="language-yaml">version: '3'
 
-// We can update the connection variables later on, as we don't have them available here just yet...
-const db = new Surreal({
-    host: 'http://surreal.domain.com',
-    username: 'root',
-    password: 'password',
-    namespace: 'awesome',
-    database: 'example'
-});
-
-export default {
-	async fetch(
-		request: Request
-	): Promise&lt;Response&gt; {
-        // Example query: Retrieves all records from table 'table'.
-        let res = await db.getRecords('table');
-		console.log(res[0].result);
-
-		return new Response(&quot;Hello World!&quot;);
-	},
-};
-</code></pre>
-<h3 id="strong-type-result"><a class="header" href="#strong-type-result">Strong type result</a></h3>
-<pre><code class="language-typescript">const res = await db.getRecords&lt;{
-    id: string;
-    username: string;
-    status: &quot;verified&quot; | &quot;unverified&quot;;
-}&gt;('user');
-
-res.forEach(record =&gt; {
-    // Everything in &quot;result&quot; is now strong typed with the defined type.
-    const { result: {
-        id,
-        username,
-        status
-    } } = record;
-    console.log(`${id} - User ${username} is ${status}`);
-});
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: surrealdb
+    restart: always
+    command: start --user INSERT_USERNAME_HERE --pass INSERT_PASSWORD_HERE --web-crt /data/web.crt --web-key /data/web.key file:/data/database.db
+    ports:
+      - 443:8000
+    volumes:
+      - ./data:/data
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="../community/00-SUMMARY.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../community/cloudflare-worker-with-surrealdb.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="../community/02-Host_in_docker_compose.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="../community/how-to-use-signin-and-signup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -254,11 +206,11 @@ res.forEach(record =&gt; {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="../community/00-SUMMARY.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../community/cloudflare-worker-with-surrealdb.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="../community/02-Host_in_docker_compose.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="../community/how-to-use-signin-and-signup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>

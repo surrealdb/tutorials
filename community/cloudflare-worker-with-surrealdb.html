@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>How to use signin and signup - SurrealDB tutorials</title>
+        <title>Cloudflare worker with SurrealDB - SurrealDB tutorials</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/01-Cloudflare_worker_with_SurrealDB.html"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/02-Host_in_docker_compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/03_How_to_use_signin_and_signup.html" class="active"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Official guides</li><li class="chapter-item expanded "><a href="../official/00-SUMMARY.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Community guides</li><li class="chapter-item expanded "><a href="../community/00-SUMMARY.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../community/cloudflare-worker-with-surrealdb.html" class="active"><strong aria-hidden="true">2.1.</strong> Cloudflare worker with SurrealDB</a></li><li class="chapter-item expanded "><a href="../community/host-in-docker-compose.html"><strong aria-hidden="true">2.2.</strong> Host in docker compose</a></li><li class="chapter-item expanded "><a href="../community/how-to-use-signin-and-signup.html"><strong aria-hidden="true">2.3.</strong> How to use signin and signup</a></li><li class="chapter-item expanded "><a href="../community/launch-instance-on-flyio.html"><strong aria-hidden="true">2.4.</strong> Launch a SurrealDB instance on Fly.io</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -146,162 +146,107 @@
                 <div id="content" class="content">
                     <main>
                         <br>
-  <h1 align="center">How to use signin and signup</h1>
+<h1 align="center">Cloudflare worker with SurrealDB</h1>
 <br>
 <hr />
 <p>
-  Tutorial by <a href="https://github.com/koakh" target="_blank">Koakh</a> from <a href="https://github.com/tobiemh" target="_blank">Tobie</a> code snippet
+    Tutorial by <a href="https://github.com/kearfy" target="_blank">Micha de Vries</a>
 </p>
 <hr />
-<h2 id="start-inmemory-server"><a class="header" href="#start-inmemory-server">Start InMemory Server</a></h2>
-<pre><code class="language-shell">$ surreal start --log trace --user root --pass root
-</code></pre>
-<h2 id="option-1-schemafull"><a class="header" href="#option-1-schemafull">Option #1: SCHEMAFULL</a></h2>
-<p>launch surreal REPL to connect to local SurrealDB server instance</p>
-<pre><code class="language-shell">$ surreal sql --conn http://localhost:8000 --user root --pass root --ns test --db test --pretty
-</code></pre>
-<p>now paste bellow surrealQL code block to create the schemafull scheme</p>
-<pre><code class="language-sql">---define SCHEMAFULL and PERMISSIONS
-DEFINE TABLE user SCHEMAFULL
-  PERMISSIONS
-    FOR select, update WHERE id = $auth.id, 
-    FOR create, delete NONE;
---- define FIELD's
-DEFINE FIELD user ON user TYPE string;
-DEFINE FIELD pass ON user TYPE string;
-DEFINE FIELD settings.* ON user TYPE object;
-DEFINE FIELD settings.marketing ON user TYPE string;
-DEFINE FIELD tags ON user TYPE array;
---- define INDEX's
-DEFINE INDEX idx_user ON user COLUMNS user UNIQUE;
+<br>
+<p>I am building an <a href="https://kards.social">open-source social media platform</a> with cloudflare workers. Internally, we we're in debate between projects like <a href="https://blog.cloudflare.com/introducing-d1/">Cloudflare D1</a> and <a href="https://planetscale.com">Planetscale</a> but eventually we stumbled upon <a href="https://surrealdb.com">SurrealDB</a>. It really made a lot of sense for our project, so we went with it!</p>
+<p>To be able to achieve this, we built <a href="https://github.com/theopensource-company/surrealdb-cloudflare">our own database driver</a>, which is also available via <a href="https://www.npmjs.com/package/@theopensource-company/surrealdb-cloudflare">NPM</a>.</p>
+<p>Below follow a few examples on how to use the database drivers with cloudflare workers. In these examples we use the worker typescript template.</p>
+<h3 id="connection-variables-from-environment"><a class="header" href="#connection-variables-from-environment">Connection variables from environment</a></h3>
+<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
 
--- define SCOPE
-DEFINE SCOPE allusers
-  -- the JWT session will be valid for 14 days
-  SESSION 14d
-  -- The optional SIGNUP clause will be run when calling the signup method for this scope
-  -- It is designed to create or add a new record to the database.
-  -- If set, it needs to return a record or a record id
-  -- The variables can be passed in to the signin method
-  SIGNUP ( CREATE user SET settings.marketing = $marketing, user = $user, pass = crypto::argon2::generate($pass), tags = $tags )
-  -- The optional SIGNIN clause will be run when calling the signin method for this scope
-  -- It is designed to check if a record exists in the database.
-  -- If set, it needs to return a record or a record id
-  -- The variables can be passed in to the signin method
-  SIGNIN ( SELECT * FROM user WHERE user = $user AND crypto::argon2::compare(pass, $pass) )
-  -- this optional clause will be run when calling the signup method for this scope
-</code></pre>
-<p>check info db in REPL</p>
-<pre><code class="language-sql">&gt; INFO FOR DB;
-[
-  {
-    &quot;result&quot;: {
-      &quot;dl&quot;: {},
-      &quot;dt&quot;: {},
-      &quot;sc&quot;: {
-        &quot;allusers&quot;: &quot;DEFINE SCOPE allusers SESSION 2w SIGNUP (CREATE user SET settings.marketing = $marketing, user = $user, pass = crypto::argon2::generate($pass), tags = $tags) SIGNIN (SELECT * FROM user WHERE user = $user AND crypto::argon2::compare(pass, $pass))&quot;
-      },
-      &quot;tb&quot;: {
-        &quot;user&quot;: &quot;DEFINE TABLE user SCHEMAFULL PERMISSIONS FOR select WHERE id = $auth.id, FOR create NONE, FOR update WHERE id = $auth.id, FOR delete NONE&quot;
-      }
-    },
-    &quot;status&quot;: &quot;OK&quot;,
-    &quot;time&quot;: &quot;153.601µs&quot;
-  }
-]
-</code></pre>
-<h2 id="option-2--schemaless"><a class="header" href="#option-2--schemaless">Option #2 : SCHEMALESS</a></h2>
-<p>another nice option suggested by <a href="https://gist.github.com/georgyo">George Shammas / georgyo</a></p>
-<pre><code class="language-sql">DEFINE SCOPE allusers 
-SESSION 14d
-SIGNUP (
-  CREATE type::thing(&quot;user&quot;, string::lowercase(string::trim($user)))
-  SET pass = crypto::argon2::generate($pass)
-)
-SIGNIN (
-  SELECT * FROM type::thing(&quot;user&quot;, string::lowercase(string::trim($user)))
-  WHERE crypto::argon2::compare(pass, $pass)
-)
-</code></pre>
-<p>Because we are <strong>reusing the id, the username unique constraint is enforced</strong> even in a SCHEMALESS table.</p>
-<p>However this also means that <strong>username will not be changeable in the future</strong> as all relationships will be using the old username as the key.</p>
-<p>check info db in REPL</p>
-<pre><code class="language-sql">&gt; INFO FOR DB;
-[
-  {
-    &quot;result&quot;: {
-      &quot;dl&quot;: {},
-      &quot;dt&quot;: {},
-      &quot;sc&quot;: {
-        &quot;allusers&quot;: &quot;DEFINE SCOPE allusers SESSION 2w SIGNUP (CREATE type::thing(\&quot;user\&quot;, string::lowercase(string::trim($user))) SET pass = crypto::argon2::generate($pass)) SIGNIN (SELECT * FROM type::thing(\&quot;user\&quot;, string::lowercase(string::trim($user))) WHERE crypto::argon2::compare(pass, $pass))&quot;
-      },
-      &quot;tb&quot;: {
-        &quot;user&quot;: &quot;DEFINE TABLE user SCHEMALESS PERMISSIONS NONE&quot;
-      }
-    },
-    &quot;status&quot;: &quot;OK&quot;,
-    &quot;time&quot;: &quot;93.978µs&quot;
-  }
-]
+// Type safety, typescript example :D
+type Env = {
+    HOST: string;
+    USER: string;
+    PASS: string;
+    NAMESPACE: string;
+    DATABASE: string;
+}
 
-&gt; SELECT * FROM user;
-[
-  {
-    &quot;result&quot;: [
-      {
-        &quot;id&quot;: &quot;user:tobie&quot;,
-        &quot;pass&quot;: &quot;$argon2id$v=19$m=4096,t=3,p=1$oFQ8a4HFXjfaadQcOdPlLw$MZrA6mNvtvFLuQq1GGhfrGs4wk9iflhKT2rRsZLxwE4&quot;
-      }
-    ],
-    &quot;status&quot;: &quot;OK&quot;,
-    &quot;time&quot;: &quot;125.017µs&quot;
-  }
-]
+// We can update the connection variables later on, as we don't have them available here just yet...
+const db = new Surreal();
+
+export default {
+	async fetch(
+		request: Request,
+        env: Env
+	): Promise&lt;Response&gt; {
+        // If database not yet connected, let's update the connection details.
+        if (!db.connected()) db.connect({
+            host: env.HOST ?? '',
+            username: env.USER ?? '',
+            password: env.PASS ?? '',
+            namespace: env.NAMESPACE ?? '',
+            database: env.DATABASE ?? ''
+        });
+
+        // Example query: Retrieves all records from table 'table'.
+        let res = await db.getRecords('table');
+		console.log(res[0].result);
+
+		return new Response(&quot;Hello World!&quot;);
+	},
+};
 </code></pre>
-<h2 id="test-signin-and-signup-with-javascript-surrealdbjs-integration"><a class="header" href="#test-signin-and-signup-with-javascript-surrealdbjs-integration">Test signin and signup with Javascript surrealdb.js integration</a></h2>
-<p>use following query from the client to <strong>signup a new user</strong></p>
-<pre><code class="language-js">db.signup({
-  NS: 'my_ns',
-  DB: 'my_db',
-  // We want to signup to the 'allusers' scope defined above
-  SC: 'allusers',
-  // We can add any variable here to use in the SIGNUP clause
-  user: 'tobie',
-  // We can add any variable here to use in the SIGNUP clause
-  pass: 'some password',
-  // We can add any variable here to use in the SIGNUP clause
-  marketing: true,
-  // We can add any variable here to use in the SIGNUP clause
-  tags: ['rust', 'golang', 'javascript'],
+<h3 id="connection-variables-defined-in-code"><a class="header" href="#connection-variables-defined-in-code">Connection variables defined in code</a></h3>
+<pre><code class="language-typescript">import Surreal from '@theopensource-company/surrealdb-cloudflare';
+
+// We can update the connection variables later on, as we don't have them available here just yet...
+const db = new Surreal({
+    host: 'http://surreal.domain.com',
+    username: 'root',
+    password: 'password',
+    namespace: 'awesome',
+    database: 'example'
 });
+
+export default {
+	async fetch(
+		request: Request
+	): Promise&lt;Response&gt; {
+        // Example query: Retrieves all records from table 'table'.
+        let res = await db.getRecords('table');
+		console.log(res[0].result);
+
+		return new Response(&quot;Hello World!&quot;);
+	},
+};
 </code></pre>
-<p>you should receive a jwt token for ex</p>
-<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjQyMjQxMjEsIm5iZiI6MTY2NDIyNDEyMSwiZXhwIjoxNjY1NDMzNzIxLCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOmQ4dzR4aHZtY2hxcHh6enl5ZjUyIn0.TWjIEm8z2TeuE27uJ9MvgfCELvOT0hC6e8vlOPUNJMx-lvxYXIYgXXcibdVxEWNQqnXu1gaUOus4KgjsWaUD-A
-</code></pre>
-<p>and <strong>signin an existing user</strong></p>
-<pre><code class="language-js">db.signin({
-  NS: 'my_ns',
-  DB: 'my_db',
-  // We want to signup to the 'allusers' scope defined above
-  SC: 'allusers',
-  // We can add any variable here to use in the SIGNUP clause
-  user: 'tobie',
-  // We can add any variable here to use in the SIGNUP clause
-  pass: 'some password',
+<h3 id="strong-type-result"><a class="header" href="#strong-type-result">Strong type result</a></h3>
+<pre><code class="language-typescript">const res = await db.getRecords&lt;{
+    id: string;
+    username: string;
+    status: &quot;verified&quot; | &quot;unverified&quot;;
+}&gt;('user');
+
+res.forEach(record =&gt; {
+    // Everything in &quot;result&quot; is now strong typed with the defined type.
+    const { result: {
+        id,
+        username,
+        status
+    } } = record;
+    console.log(`${id} - User ${username} is ${status}`);
 });
-</code></pre>
-<p>you should receive a jwt token for ex</p>
-<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjQyMjQxNjMsIm5iZiI6MTY2NDIyNDE2MywiZXhwIjoxNjY1NDMzNzYzLCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOmQ4dzR4aHZtY2hxcHh6enl5ZjUyIn0.kKx_WShYBf9T_sCa_pRldHTG9LyfIx-4q0V4sz2kKzxSG4b_okG-MddTwdqHnsdS7rEJxZ-Gp-iP4cpgo77kqQ
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="../community/02-Host_in_docker_compose.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="../community/00-SUMMARY.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
+                                                    <a rel="next" href="../community/host-in-docker-compose.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -309,10 +254,13 @@ SIGNIN (
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="../community/02-Host_in_docker_compose.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="../community/00-SUMMARY.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
+                                    <a rel="next" href="../community/host-in-docker-compose.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                             </nav>
 
         </div>
