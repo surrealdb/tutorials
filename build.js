@@ -12,6 +12,7 @@ function FillGuideIntro(g) {
     tmpl = tmpl.replace('{{TITLE}}', g.title);
     tmpl = tmpl.replace('{{CREATOR}}', g.creator);
     tmpl = tmpl.replace('{{LINK}}', g.link);
+    tmpl = tmpl.replace('{{GH_LINK}}', `https://github.com/surrealdb/tutorials/blob/main/${g.folder}/${g.file}`);
     return tmpl;
 }
 
@@ -35,7 +36,8 @@ function CollectFolderGuides(folder) {
             title: matchedOptions[1],
             creator: matchedOptions[2],
             link: matchedOptions[3],
-            file: f
+            file: f,
+            folder,
         };
 
         fs.writeFileSync(path, content.replace(matchedOptions[0], FillGuideIntro(guide)))
