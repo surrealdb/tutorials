@@ -2,17 +2,11 @@
 
 <!-- Please add a descriptive title. Feel free to change how you want to -->
 
----
-
-<br>
-
 ### Description
 
 <!-- Feel free to add any form of description about / reasoning for this PR here -->
 
 I created this tutorial because...
-
-<br>
 
 ### Guidelines
 
